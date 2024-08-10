@@ -100,7 +100,7 @@ resource "arvan_abrak" "vm_with_floatingip" {
     read   = "10m"
   }
   region          = var.region
-  name            = var.vm-name
+  name            = "${var.vm-name}-${count.index + 1}"
   count           = var.floating-ip == true && var.public_ip == false ? var.vm-count : 0
   image_id        = local.chosen_image[0].id
   flavor_id       = var.vm-plan
@@ -129,7 +129,7 @@ resource "arvan_abrak" "vm_without_floatingip" {
     read   = "10m"
   }
   region          = var.region
-  name            = var.vm-name
+  name            = "${var.vm-name}-${count.index + 1}"
   count           = var.floating-ip == false ? var.vm-count : 0
   image_id        = local.chosen_image[0].id
   flavor_id       = var.vm-plan
