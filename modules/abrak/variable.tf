@@ -1,6 +1,6 @@
 variable "region" {
   type = string
-  default = "ir-thr-c2"
+  #default = "ir-thr-c2"
 }
 
 variable "vm-plan" {

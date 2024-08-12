@@ -15,6 +15,7 @@ module "create_vm" {
   depends_on = [ module.create_private_network ]
   source = "./modules/abrak"
   count = length(var.vm_list)
+  region = var.region
   vm-count = var.vm_list[count.index].count
   vm-name = var.vm_list[count.index].name
   vm-plan = var.vm_list[count.index].plan
