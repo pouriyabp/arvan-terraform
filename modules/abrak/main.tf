@@ -32,7 +32,7 @@ data "arvan_networks" "network_lists" {
 locals {
   public_networks = [
     for network in data.arvan_networks.network_lists.networks :
-    network if length(regexall("public", network.name)) > 0
+    network if length(regexall("شبکه پیش فرض", network.name)) > 0
   ]
 }
 
@@ -50,7 +50,7 @@ locals {
   network_list = tolist(data.arvan_networks.network_lists.networks)
   chosen_network = try(
     [for network in local.network_list : network.network_id
-    if network.name == "network1"],
+    if network.name == var.vm-network],
     []
   )
   final_network_list = var.public_ip == true ? concat(local.chosen_network, [local.selected_public_network.network_id]) : local.chosen_network
