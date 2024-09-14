@@ -33,3 +33,10 @@ module "create_vm" {
 
 
 
+
+# resource "arvan_volume" "terraform_volume" {
+#   region      = var.region
+#   description = "Terraform-created volume"
+#   name        = "tf_volume"
+#   size        = 9
+# }

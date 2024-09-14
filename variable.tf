@@ -9,13 +9,13 @@ variable "ApiKey" {
 
 variable "region" {
   type = string
-  default = "ir-thr-c2"
+  #default = "ir-thr-c2"
 }
 
 variable "ssh_key_name" {
   type = string
   description = "name of the ssh_key that you define in arvan panel"
-  default = "arvan"
+  #default = "arvan"
 }
 
 
@@ -27,12 +27,12 @@ variable "network_list" {
     dns_servers = list(string)
 
   }))
-  default = [ {
-    name = "test-network"
-    description = "default"
-    cidr = "10.110.255.0/24"
-    dns_servers = [ "185.206.92.250", "1.1.1.1" ]
-  } ]
+  # default = [ {
+  #   name = "test-network"
+  #   description = "default"
+  #   cidr = "10.110.255.0/24"
+  #   dns_servers = [ "185.206.92.250", "1.1.1.1" ]
+  # } ]
 }
 
 
@@ -51,19 +51,19 @@ variable "vm_list" {
     public_ip = bool
 
   }))
-  default = [ {
-    name = "test"
-    plan = "eco-2-2-0"
-    distro = "ubuntu"
-    distro-version = "22.04"
-    count = 3
-    disk-size = 25
-    network = "test-network"
-    security_group = "default"
-    floating_ip = false
-    public_ip = false
+  # default = [ {
+  #   name = "test"
+  #   plan = "eco-2-2-0"
+  #   distro = "ubuntu"
+  #   distro-version = "22.04"
+  #   count = 3
+  #   disk-size = 25
+  #   network = "test-network"
+  #   security_group = "default"
+  #   floating_ip = false
+  #   public_ip = false
     
-  } ]
+  # } ]
   
 }
 
