@@ -49,6 +49,7 @@ variable "vm_list" {
     security_group = string
     floating_ip = bool 
     public_ip = bool
+    volumes = list(string)
 
   }))
   # default = [ {
@@ -69,4 +70,10 @@ variable "vm_list" {
 
 
 
-
+variable "volumes_list" {
+  type = list(object({
+    name = string
+    size = number
+    ssd = bool
+  }))
+}

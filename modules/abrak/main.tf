@@ -27,7 +27,9 @@ data "arvan_networks" "network_lists" {
 }
 
 
-
+data "arvan_volumes_v2" "volume_list" {
+  region = var.region
+}
 
 locals {
   public_networks = [
@@ -81,6 +83,17 @@ locals {
 }
 
 
+locals {
+  volumes_list = tolist(data.arvan_volumes_v2.volume_list.volumes)
+  chosen_volume = try(
+  [
+    for volume in local.volumes_list : volume.id
+    if volume.name == var.volumes ],
+    []
+  )
+  
+
+}
 
 
 resource "arvan_floating_ip" "terraform_floating_ip" {
@@ -91,33 +104,33 @@ resource "arvan_floating_ip" "terraform_floating_ip" {
 
 
 
-resource "arvan_abrak" "vm_with_floatingip" {
-  depends_on = [local.chosen_security_group, local.chosen_network, arvan_floating_ip.terraform_floating_ip]
-  timeouts {
-    create = "1h30m"
-    update = "2h"
-    delete = "20m"
-    read   = "10m"
-  }
-  region          = var.region
-  name            = "${var.vm-name}-${count.index + 1}"
-  count           = var.floating-ip == true && var.public_ip == false ? var.vm-count : 0
-  image_id        = local.chosen_image[0].id
-  flavor_id       = var.vm-plan
-  disk_size       = var.vm-disk-size
-  ssh_key_name    = var.vm-ssh-key-name
+# resource "arvan_abrak" "vm_with_floatingip" {
+#   depends_on = [local.chosen_security_group, local.chosen_network, arvan_floating_ip.terraform_floating_ip]
+#   timeouts {
+#     create = "1h30m"
+#     update = "2h"
+#     delete = "20m"
+#     read   = "10m"
+#   }
+#   region          = var.region
+#   name            = "${var.vm-name}-${count.index + 1}"
+#   count           = var.floating-ip == true && var.public_ip == false ? var.vm-count : 0
+#   image_id        = local.chosen_image[0].id
+#   flavor_id       = var.vm-plan
+#   disk_size       = var.vm-disk-size
+#   ssh_key_name    = var.vm-ssh-key-name
 
-  networks = [
-    {
-      network_id = local.chosen_network[0]
-    }
-  ]
-  security_groups = [local.chosen_security_group[0].id]
-  floating_ip = {
-  floating_ip_id = arvan_floating_ip.terraform_floating_ip[count.index].id
-  network_id     = local.chosen_network[0]
-  }
-}
+#   networks = [
+#     {
+#       network_id = local.chosen_network[0]
+#     }
+#   ]
+#   security_groups = [local.chosen_security_group[0].id]
+#   floating_ip = {
+#   floating_ip_id = arvan_floating_ip.terraform_floating_ip[count.index].id
+#   network_id     = local.chosen_network[0]
+#   }
+# }
 
 
 resource "arvan_abrak" "vm_without_floatingip" {
@@ -137,6 +150,7 @@ resource "arvan_abrak" "vm_without_floatingip" {
   ssh_key_name    = var.vm-ssh-key-name
   networks = local.network_configs
   security_groups = [local.chosen_security_group[0].id]
+  volumes = local.chosen_volume
 }
 
 

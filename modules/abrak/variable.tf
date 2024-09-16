@@ -61,3 +61,7 @@ variable "public_ip" {
 }
 
 
+variable "volumes" {
+  type = string
+
+}
