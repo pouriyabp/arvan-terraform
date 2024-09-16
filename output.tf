@@ -1,8 +1,8 @@
-output "test" {
+output "network" {
   value = module.create_private_network
 }
 
 
-output "x" {
+output "vm" {
   value = module.create_vm
 }
