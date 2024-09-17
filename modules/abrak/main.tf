@@ -151,6 +151,11 @@ resource "arvan_abrak" "vm_without_floatingip" {
   networks = local.network_configs
   security_groups = [local.chosen_security_group[0].id]
   volumes = local.chosen_volume
+
+
+  lifecycle {
+    ignore_changes = [networks]
+  }
 }
 
 
