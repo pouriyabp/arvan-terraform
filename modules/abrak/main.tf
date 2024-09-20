@@ -83,17 +83,17 @@ locals {
 }
 
 
-locals {
-  volumes_list = tolist(data.arvan_volumes_v2.volume_list.volumes)
-  chosen_volume = try(
-  [
-    for volume in local.volumes_list : volume.id
-    if volume.name == var.volumes ],
-    []
-  )
+# locals {
+#   volumes_list = tolist(data.arvan_volumes_v2.volume_list.volumes)
+#   chosen_volume = try(
+#   [
+#     for volume in local.volumes_list : volume.id
+#     if volume.name == var.volumes ],
+#     []
+#   )
   
 
-}
+# }
 
 
 resource "arvan_floating_ip" "terraform_floating_ip" {
@@ -150,7 +150,7 @@ resource "arvan_abrak" "vm_without_floatingip" {
   ssh_key_name    = var.vm-ssh-key-name
   networks = local.network_configs
   security_groups = [local.chosen_security_group[0].id]
-  volumes = local.chosen_volume
+  #volumes = local.chosen_volume
 
 
   lifecycle {

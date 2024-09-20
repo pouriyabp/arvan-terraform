@@ -9,17 +9,17 @@ module "create_private_network" {
 }
 
 
-module "create_volume" {
-  source = "./modules/volume"
-  count = length(var.vm_list)
-  region = var.region
-  name = var.volumes_list[count.index].name
-  size = var.volumes_list[count.index].size
-  ssd = var.volumes_list[count.index].ssd
-}
+# module "create_volume" {
+#   source = "./modules/volume"
+#   count = length(var.vm_list)
+#   region = var.region
+#   name = var.volumes_list[count.index].name
+#   size = var.volumes_list[count.index].size
+#   ssd = var.volumes_list[count.index].ssd
+# }
 
 module "create_vm" {
-  depends_on = [ module.create_private_network, module.create_volume ]
+  depends_on = [ module.create_private_network]
   source = "./modules/abrak"
   count = length(var.vm_list)
   region = var.region
@@ -34,7 +34,7 @@ module "create_vm" {
   floating-ip = var.vm_list[count.index].floating_ip
   public_ip = var.vm_list[count.index].public_ip
   vm-ssh-key-name = var.ssh_key_name 
-  volumes =  var.vm_list[count.index].volumes[0]
+  #volumes =  var.vm_list[count.index].volumes[0]
 }
 
 

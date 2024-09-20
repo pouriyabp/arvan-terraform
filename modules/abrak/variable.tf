@@ -61,7 +61,7 @@ variable "public_ip" {
 }
 
 
-variable "volumes" {
-  type = string
+# variable "volumes" {
+#   type = string
 
-}
+# }
